@@ -11,8 +11,14 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.cloud.tencent.com/g' /etc/apt/sources.l
     && sed -i 's/security.ubuntu.com/mirrors.cloud.tencent.com/g' /etc/apt/sources.list \
     && apt-get update \
     && apt-get install -y python3-pip \
-    && pip3 install PyMySQL
-
+    && pip3 install PyMySQL \
+    && rm -f /usr/bin/gradle \
+    && rm -rf /opt/gradle
+WORKDIR /opt
+RUN wget https://services.gradle.org/distributions/gradle-6.1-bin.zip \
+    && unzip gradle-6.1-bin.zip \
+    && rm -f gradle-6.1-bin.zip \
+    && ln -s /opt/gradle-6.1/bin/gradle /usr/bin/gradle
 
 RUN git clone https://github.com/FISCO-BCOS/fisco-bcos-browser.git /fisco-bcos-browser
 
